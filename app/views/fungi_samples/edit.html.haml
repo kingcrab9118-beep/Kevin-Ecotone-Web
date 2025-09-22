@@ -1,0 +1,4 @@
+- content_for_title('Edit Fungi Sample')
+- content_for(:subnav) do
+  = link_to('« Back', @fungi_sample, class: 'button primary', method: 'get')
+= render partial: 'form'

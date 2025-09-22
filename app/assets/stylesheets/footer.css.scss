@@ -1,0 +1,27 @@
+@import './constants.css.scss';
+
+footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding-top: $space1;
+  border-top: 1px solid $grey7;
+  width: 100%;
+  ul {
+    float: right;
+    list-style: none;
+    li {
+      float: left;
+      margin-left: $space3;
+    }
+  }
+  a {
+    color: $grey4;
+    &:hover {
+      color: $green2;
+    }
+    &#osu:hover {
+      color: $orange3;
+    }
+  }
+}

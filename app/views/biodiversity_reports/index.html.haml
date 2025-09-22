@@ -1,0 +1,31 @@
+- content_for_title('Biodiversity Reports')
+- content_for(:subnav) do
+  = link_to('Create Report', new_biodiversity_report_path, class: 'button primary', method: 'get')
+
+= paginate @biodiversity_reports
+
+%section
+  %table.table.list
+    %thead
+      %tr
+        %th{scope: 'col'} ID
+        %th{scope: 'col'} Measured On
+        %th{scope: 'col'} Plot
+        %th{scope: 'col'} Temperature
+        %th{scope: 'col'} Species Richness
+        %th{scope: 'col'} Diversity Index
+        %th{scope: 'col'} Species Evenness
+        %th{scope: 'col'} Biomass Estimate
+    %tbody
+      - @biodiversity_reports.each do |report|
+        %tr{:onclick => "location.href='#{url_for(report)}'"}
+          %td= report.id
+          %td= report.datestamp
+          %td= report.plot
+          %td= report.temperature
+          %td= report.species_richness
+          %td= report.diversity_index
+          %td= report.species_evenness
+          %td= report.biomass_estimate
+
+= paginate @biodiversity_reports

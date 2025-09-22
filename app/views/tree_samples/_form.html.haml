@@ -1,0 +1,45 @@
+.form
+  = form_for(@tree_sample, html: { multipart: true }) do |form|
+    = form_errors_for(@tree_sample)
+    .content
+      .caption
+        %h3 Information 
+        %p.italic Provide data about the tree sample
+      .input
+        .data
+          = form.label :collected_on, 'Collection Date'
+          = form.date_field :collected_on, class: 'form-control'
+        .data
+          = form.label :plot_id, 'Plot'
+          = form.collection_select :plot_id, @plots, :id, :name, {include_blank: 'Choose plot...'}, {class: 'form-control'}
+        .data
+          = form.label :plant_id, 'Species'
+          = form.collection_select :plant_id, @plants, :id, :form_common_name, {include_blank: 'Choose tree...'}, {class: 'form-control'}
+        .data
+          = form.label :tag_number, 'Tag'
+          = form.text_field :tag_number, class: 'form-control'
+        .data
+          = form.label :growth_stage, 'Growth Stage'
+          = form.select :growth_stage, TreeSample.growth_stages.keys.map {|k| [k.capitalize, k]}, { include_blank: 'Choose stage...' }, {class: 'form-control'}
+    .content
+      .caption
+        %h3 Measurements
+        %p.italic Calculate dimensions and location of the tree
+      .input
+        .data
+          = form.label :dbh, 'DBH (cm)'
+          = form.text_field :dbh, class: 'form-control'
+        .data
+          = form.label :lower_canopy_height, 'Lower Canopy Height (m)'
+          = form.text_field :lower_canopy_height, class: 'form-control'
+        .data
+          = form.label :upper_canopy_height, 'Upper Canopy Height (m)'
+          = form.text_field :upper_canopy_height, class: 'form-control'
+        .data
+          = form.label :latitude, 'Latitude N'
+          = form.text_field :latitude, class: 'form-control'
+        .data
+          = form.label :longitude, 'Longitude W'
+          = form.text_field :longitude, class: 'form-control'
+    = render 'layouts/image_gallery', {form: form, entity: @tree_sample, phrase: 'Include reference pictures for the sample'}
+    = render 'layouts/form_buttons', {form: form, text: 'Sample'}

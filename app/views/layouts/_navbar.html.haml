@@ -1,0 +1,53 @@
+.navbar-wrapper
+  %nav.navbar.navbar-fixed-top.navbar-inverse
+    .container
+      .navbar-header
+        %button.navbar-toggle.collapsed{'aria-controls': 'navbar', 'aria-expanded': 'false', 'data-target': '#navbar', 'data-toggle': 'collapse', type: 'button'}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %a.navbar-brand
+          = image_tag 'osu_crest_256x256.png', id: 'crest', alt: 'OSU'
+          = link_to 'Ecotone', root_path, id: 'logo', title: 'Ecotone Homepage'
+      #navbar.navbar-collapse.collapse
+        %ul.nav.navbar-nav.navbar-right
+          %li= link_to 'Plots', plots_path, title: 'List of all plots'
+          %li= link_to 'Plants', plants_path, title: 'List of all plants'
+          %li= link_to 'Map', map_path, title: 'Map of the plots'
+          - if user_signed_in?
+            %li.dropdown
+              %a.dropdown-toggle{'aria-expanded': 'false', 'aria-haspopup': 'true', 'data-toggle': 'dropdown', href: '#', role: 'button'}
+                Biological Samples
+                %span.caret
+              %ul.dropdown-menu
+                %li= link_to 'Fungi', fungi_samples_path, title: 'Fungi samples'
+                %li.divider
+                %li= link_to 'Lichen', lichen_samples_path, title: 'Lichen samples'
+                %li.divider
+                %li= link_to 'Macroinvertebrates', macroinvertebrate_samples_path, title: 'Macroinvertebrate samples'
+                %li.divider
+                %li= link_to 'Mycorrhizal Fungi', mycorrhizal_fungi_samples_path, title: 'Mycorrhizal Fungi Samples'
+                %li.divider
+                %li= link_to 'Nonvascular Plants', nonvascular_plant_samples_path, title: 'Non-vascular plant samples'
+                %li.divider
+                %li= link_to 'Plants', plant_samples_path, title: 'Plant samples'
+                %li.divider
+                %li= link_to 'Soil', soil_samples_path, title: 'Soil samples'
+                %li.divider
+                %li= link_to 'Species Variation', species_variation_observations_path, title: 'Species Variation Observations'
+                %li.divider
+                %li= link_to 'Trees', tree_samples_path, title: 'Tree samples'
+            %li= link_to 'Biodiversity Reports', biodiversity_reports_path, title: 'Biodiversity reports'
+            - if current_user.admin?
+              %li= link_to 'Users', users_path, title: 'List of all users'
+            %li.dropdown
+              %a.dropdown-toggle{'aria-expanded': 'false', 'aria-haspopup': 'true', 'data-toggle': 'dropdown', href: '#', role: 'button'}
+                = current_user.name
+                %span.caret
+              %ul.dropdown-menu
+                %li= link_to 'My Profile', current_user, title: 'User profile'
+                %li.divider
+                %li= link_to 'Log out', destroy_user_session_path, method: 'delete'
+          - else
+            %li= link_to 'Log in', new_user_session_path

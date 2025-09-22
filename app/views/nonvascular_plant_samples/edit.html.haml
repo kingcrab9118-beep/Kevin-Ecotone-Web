@@ -1,0 +1,4 @@
+- content_for_title('Edit Nonvascular Plant Sample')
+- content_for(:subnav) do
+  = link_to('« Back', @nonvascular_plant_sample, class: 'button primary', method: 'get')
+= render partial: 'form'

@@ -1,0 +1,27 @@
+- content_for_title(@plant.common_name.titleize)
+- content_for(:subnav) do
+  .btn-public
+    = link_to('« Plants', plants_path, class: 'button primary', title: 'List of all plants', method: 'get')
+    = link_to(content_tag(:i, '', :class => "icon-qr-code"), { action: 'download_qr' }, 'data-turbolinks': false, class: 'btn-icon', title: "Download QR Code for #{@plant}")
+  - if current_user&.admin?
+    .btn-admin
+      = link_to(content_tag(:i, '', :class => "icon-edit"), edit_plant_path(@plant), class: 'btn-icon', title: "Edit #{@plant}")
+      = link_to(content_tag(:i, '', :class => "icon-trash"), @plant, method: :delete, data: { confirm: "Delete #{@plant.common_name}?" }, class: 'btn-icon', title: "Delete #{@plant}")
+.content
+  = render 'layouts/image_carousel', entity: @plant
+  .info
+    %h2.heading.light-italic
+      = @plant.scientific_name.capitalize
+      - if @plant.invasive
+        (invasive)
+    %p.no-margin= @plant.description
+    %p.citation.italic= @plant.citation
+    %table.table
+      %thead
+        %th{scope: 'col'} Habitat Type
+        %th{scope: 'col'} Tolerance
+        %th{scope: 'col'} Invasive?
+      %tbody
+        %td= @plant.habitat_type
+        %td= @plant.tolerance
+        %td{class: ('danger' if @plant.invasive)}= @plant.invasive? ? 'Yes' : 'No'

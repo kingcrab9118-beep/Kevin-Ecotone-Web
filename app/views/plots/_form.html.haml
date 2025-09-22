@@ -1,0 +1,56 @@
+.form
+  = form_for(@plot, html: { multipart: true }) do |form|
+    = form_errors_for(@plot)
+    .content
+      .caption
+        %h3 About
+        %p.italic Describe interesting plot features and where to find it
+      .input
+        .data
+          = form.label :plot_id, "Plot ID"
+          = form.text_field :plot_id, class: 'form-control'
+        .data
+          = form.label :location_description, "Description"
+          = form.text_area :location_description, class: 'form-control'
+        .data
+          = form.label :featured_plant_id, "Featured Plant"
+          = form.collection_select :featured_plant_id, @plants, :id, :form_common_name, {include_blank: 'None'}, {class: 'form-control'}
+        .data
+          = form.label :area, 'Area (sq ft)'
+          = form.text_field :area, class: 'form-control'
+    .content
+      .caption
+        %h3 Location
+        %p.italic Add specific plot coordinates and exposure information
+      .input
+        .data
+          = form.label :latitude
+          = form.text_field :latitude, class: 'form-control'
+        .data
+          = form.label :longitude
+          = form.text_field :longitude, class: 'form-control'
+        .data
+          = form.label :elevation, 'Elevation (ft)'
+          = form.text_field :elevation, class: 'form-control'
+        .data
+          = form.label :aspect
+          = form.text_field :aspect, class: 'form-control'
+    .content
+      .caption
+        %h3 Information
+        %p.italic Detail the health and history of the plot
+      .input
+        .data
+          = form.label :origin
+          = form.text_field :origin, class: 'form-control'
+        .data.checkbox-container
+          = form.label :inoculated, "Inoculated?"
+          = form.check_box :inoculated
+        .data
+          = form.label :initial_planting_date, "Initial Planting Date"
+          = form.text_field :initial_planting_date, class: 'form-control'
+        .data
+          = form.label :initial_succession, "Initial Succession"
+          = form.text_field :initial_succession, class: 'form-control'
+    = render 'layouts/image_gallery', {form: form, entity: @plot, phrase: 'Show plot changes over time by adding pictures'}
+    = render 'layouts/form_buttons', form: form

@@ -1,0 +1,29 @@
+- content_for_title("Nonvascular Plant Sample ##{@nonvascular_plant_sample.id}")
+- content_for(:subnav) do
+  .btn-public
+    = link_to('« Samples', nonvascular_plant_samples_path, class: 'button primary', method: 'get')
+  - if @nonvascular_plant_sample.editable_by?(current_user)
+    .btn-admin
+      = link_to(content_tag(:i, '', :class => "icon-edit"), edit_nonvascular_plant_sample_path(@nonvascular_plant_sample), class: 'btn-icon')
+      - if current_user&.admin?
+        = link_to(content_tag(:i, '', :class => "icon-trash"), @nonvascular_plant_sample, method: :delete, data: { confirm: "Delete nonvascular plant sample #{@nonvascular_plant_sample.id}?" }, class: 'btn-icon')
+.content
+  = render 'layouts/image_carousel', entity: @nonvascular_plant_sample
+  .info
+    %h2.heading#table-heading Information
+    %table.table#vertical-table
+      %thead
+        %th.citation.italic{colspan: '2'}= last_updated(@nonvascular_plant_sample)
+      %tbody
+        %tr
+          %th{scope: 'row'} Collection Date
+          %td= @nonvascular_plant_sample.datestamp
+        %tr
+          %th{scope: 'row'} Plot
+          %td= link_to("#{@nonvascular_plant_sample.plot}", @nonvascular_plant_sample.plot)
+        %tr
+          %th{scope: 'row'} Location in Plot
+          %td= @nonvascular_plant_sample.location_within_plot
+        %tr
+          %th{scope: 'row'} Description
+          %td= @nonvascular_plant_sample.description

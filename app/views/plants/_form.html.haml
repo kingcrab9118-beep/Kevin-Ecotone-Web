@@ -1,0 +1,31 @@
+.form
+  = form_for(@plant, html: { multipart: true }) do |form|
+    = form_errors_for(@plant)
+    .content
+      .caption
+        %h3 Information 
+        %p.italic Fill in general details about the plant
+      .input
+        .data
+          = form.label :common_name
+          = form.text_field :common_name, class: 'form-control'
+        .data
+          = form.label :scientific_name
+          = form.text_field :scientific_name, class: 'form-control'
+        .data
+          = form.label :description
+          = form.text_area :description, class: 'form-control'
+        .data
+          = form.label :citation
+          = form.text_field :citation, class: 'form-control'
+        .data.checkbox-container
+          = form.label :invasive, 'Invasive?'
+          = form.check_box :invasive
+        .data
+          = form.label :habitat_type
+          = form.text_field :habitat_type, class: 'form-control'
+        .data
+          = form.label :tolerance
+          = form.text_field :tolerance, class: 'form-control'
+    = render 'layouts/image_gallery', {form: form, entity: @plant, phrase: 'Include pictures for easier plant identification'}
+    = render 'layouts/form_buttons', form: form

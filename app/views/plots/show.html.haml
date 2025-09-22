@@ -1,0 +1,116 @@
+- content_for_title("Plot ##{@plot.plot_id}")
+- content_for(:subnav) do
+  .btn-public
+    = link_to('« Plots', plots_path, class: 'button primary', title: 'List of all plots', method: 'get')
+    = link_to(content_tag(:i, '', :class => "icon-qr-code"), { controller: 'plots' , action: 'download_qr', id: @plot }, 'data-turbolinks': false, class: 'btn-icon', title: "Download QR Code for #{@plot}")
+  - if current_user&.admin?
+    .btn-admin
+      = link_to(content_tag(:i, '', :class => "icon-edit"), edit_plot_path(@plot), class: 'btn-icon', title: "Edit #{@plot}")
+      = link_to(content_tag(:i, '', :class => "icon-trash"), @plot, method: :delete, data: { confirm: "Delete Plot ##{@plot.plot_id}?" }, class: 'btn-icon', title: "Delete #{@plot}")
+.content
+  .img-caption
+    - if @plot.photo.length == 0
+      .img-square.default
+        = image_tag(photo(@plot), alt: "Photo of #{@plot.photo}")
+    - elsif @plot.photo.length == 1
+      .img-square{ :style => "background-image: url(#{rails_blob_url(photo(@plot))})", :alt => "Photo of #{@plot.photo}" }
+    - else
+      #plotCarousel.carousel{"data-interval" => "false"}
+        .center
+          %a.carousel-control-prev.btn-icon#chevron{"data-slide" => "prev", :href => "#plotCarousel", :role => "button"}
+            = content_tag(:i, '', :class => "icon-chevron-left")
+          .carousel-inner
+            - @plot.photo.each_with_index do |image, index|
+              %div{ :class => "img-square item #{index == 0 ? 'active' : ''}", :style => "background-image: url(#{rails_blob_url(photo(@plot, index))})", :alt => "Photo of #{image}" }
+          %a.carousel-control-next.btn-icon#chevron{"data-slide" => "next", :href => "#plotCarousel", :role => "button"}
+            = content_tag(:i, '', :class => "icon-chevron-right")
+    %p.center.space.italic= @plot.formatted_location_description
+  .info
+    %h2.heading#table-heading Information
+    %table.table#vertical-table
+      %thead
+        %th.citation.italic{colspan: '2'}= last_updated(@plot)
+      %tbody
+        %tr
+          %th{scope: 'row'} Featured Plant
+          %td= link_to_featured_plant(@plot)
+        %tr
+          %th{scope: 'row'} Latitude
+          %td= @plot.latitude || 'unmeasured'
+        %tr
+          %th{scope: 'row'} Longitude
+          %td= @plot.longitude || 'unmeasured'
+        %tr
+          %th{scope: 'row'} Elevation
+          %td= @plot.elevation ? "#{@plot.elevation} ft." : 'unmeasured'
+        %tr
+          %th{scope: 'row'} Area
+          %td= @plot.area ? "#{@plot.area} sq. ft." : 'unmeasured'
+        %tr
+          %th{scope: 'row'} Aspect
+          %td= @plot.aspect
+        %tr
+          %th{scope: 'row'} Origin
+          %td= @plot.origin
+        %tr
+          %th{scope: 'row'} Inoculated?
+          %td= @plot.inoculated ? 'Yes' : 'No'
+        %tr
+          %th{scope: 'row'} Initial Planting Date
+          %td= @plot.initial_planting_date
+        %tr
+          %th{scope: 'row'} Initial Succession
+          %td= @plot.initial_succession
+- if @plot.featured_plant 
+  %h2.center= @plot.featured_plant.common_name.titleize
+  .content
+    - if @plot.featured_plant.photo.length == 0
+      .img-square.default
+        = image_tag(photo(@plot.featured_plant), alt: "Photo of #{@plot.featured_plant.photo}")
+    - elsif @plot.featured_plant.photo.length == 1
+      .img-square{ :style => "background-image: url(#{rails_blob_url(photo(@plot.featured_plant))})", :alt => "Photo of #{@plot.featured_plant.photo}" }
+    - else
+      #plantCarousel.carousel{"data-interval" => "false"}
+        .center
+          %a.carousel-control-prev.btn-icon#chevron{"data-slide" => "prev", :href => "#plantCarousel", :role => "button"}
+            = content_tag(:i, '', :class => "icon-chevron-left")
+          .carousel-inner
+            - @plot.featured_plant.photo.each_with_index do |image, index|
+              %div{ :class => "img-square item #{index == 0 ? 'active' : ''}", :style => "background-image: url(#{rails_blob_url(photo(@plot.featured_plant, index))})", :alt => "Photo of #{image}" }
+          %a.carousel-control-next.btn-icon#chevron{"data-slide" => "next", :href => "#plantCarousel", :role => "button"}
+            = content_tag(:i, '', :class => "icon-chevron-right")
+    .info
+      %h2.heading.light-italic
+        = @plot.featured_plant.scientific_name.capitalize
+        - if @plot.featured_plant.invasive
+          (invasive)
+      %p.no-margin= @plot.featured_plant.description
+      %p.citation.italic= @plot.featured_plant.citation
+      %table.table
+        %thead
+          %th{scope: 'col'} Habitat Type
+          %th{scope: 'col'} Tolerance
+          %th{scope: 'col'} Invasive?
+        %tbody
+          %td= @plot.featured_plant.habitat_type
+          %td= @plot.featured_plant.tolerance
+          %td{class: ('danger' if @plot.featured_plant.invasive)}= @plot.featured_plant.invasive? ? 'Yes' : 'No'
+- if @plot.biodiversity_reports  
+  .space
+  %h2.center Biodiversity Report Data       
+  .info
+    %section
+      %table.table.list
+        %thead
+          %tr
+            %th{scope: 'col'} Measured On
+            %th{scope: 'col'} Temperature
+            %th{scope: 'col'} Species Richness
+            %th{scope: 'col'} Diversity Index
+        %tbody
+          - @plot.biodiversity_reports.order('measured_on DESC').each do |report|
+            %tr{:onclick => "location.href='#{url_for(report)}'"}
+              %td= report.measured_on.to_formatted_s(:long)
+              %td= report.temperature
+              %td= report.species_richness
+              %td= report.diversity_index

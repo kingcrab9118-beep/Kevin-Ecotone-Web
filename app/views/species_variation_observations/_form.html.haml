@@ -1,0 +1,28 @@
+.form
+  = form_for(@species_variation_observation, html: { multipart: true }) do |form|
+    = form_errors_for(@species_variation_observation)
+    .content
+      .caption
+        %h3 Information 
+        %p.italic Provide data about the species variation observation
+      .input
+        .data
+          = form.label :observed_on, 'Observation Date'
+          = form.date_field :observed_on, class: 'form-control'        
+        .data
+          = form.label :plot_id, 'Plot'
+          = form.collection_select :plot_id, @plots, :id, :name, {include_blank: 'Choose plot...'}, {class: 'form-control'}
+        .data
+          = form.label :plant_id, 'Plant'
+          = form.collection_select :plant_id, @plants, :id, :form_common_name, {include_blank: 'Choose plant...'}, {class: 'form-control'}
+        .data
+          = form.label :average_height, 'Average Height'
+          = form.text_field :average_height, class: 'form-control', placeholder: 'cm'
+        .data
+          = form.label :average_width, 'Average Width'
+          = form.text_field :average_width, class: 'form-control', placeholder: 'cm'
+        .data
+          = form.label :description, 'Qualitative Analysis'
+          = form.text_area :description, class: 'form-control'
+    = render 'layouts/image_gallery', {form: form, entity: @species_variation_observation, phrase: 'Include reference pictures for the observation'}
+    = render 'layouts/form_buttons', {form: form, text: 'Sample'}

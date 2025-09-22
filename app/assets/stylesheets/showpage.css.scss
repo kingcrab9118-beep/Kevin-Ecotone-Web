@@ -1,0 +1,112 @@
+@import './constants.css.scss';
+
+.content {
+	display: grid;
+  grid-auto-flow: column;
+	justify-content: center;
+	margin: $space4;
+}
+
+@media (max-width: 800px) {
+  .content {
+		align-items: center;
+  	justify-items: center;
+    grid-auto-flow: row;
+  }
+	.info {
+		margin-top: $space6;
+		#table-heading {
+			text-align: center;
+		}
+	}
+}
+
+.info {
+	display: grid;
+	align-content: start;
+	margin-left: $space5;
+	margin-right: $space5;
+}
+
+.heading {
+	margin-top: 0px;
+	margin-bottom: $space1;
+	color: $grey2;
+	font-size: $txt5;
+}
+
+.citation {
+	margin: 0px;
+	padding-top: $space0;
+	color: $grey4;
+	font-size: $txt0;
+}
+
+.img-square {
+	position: relative;
+	margin: 0px $space5 0px;
+	display: block;
+	width: $space11;
+	height: $space11;
+	background-size: cover;
+	border-radius: $space0;
+	&::after {
+		box-shadow: $border-shadow;
+		border-radius: $space0;
+		content: "";
+		display: block;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+	}
+	&.default img {
+		height: 100%;
+		width: 100%;
+	}
+}
+
+.img-caption {	
+	.space {
+		margin-top: $space4;
+		margin-bottom: 0px;
+	}
+
+	p {
+		width: $space11;
+		font-size: $txt2;
+		color: $grey2;
+		margin: 0 auto;
+	}
+}
+
+// Image Carousel
+.carousel {
+	.carousel-inner {
+		width: $space11;
+		height: $space11;
+		overflow: visible;
+	}
+
+	.center {
+		display: grid;
+  	grid-auto-flow: column;
+		width: 340px;
+		height: $space11;
+		align-content: center;
+		justify-content: center;
+
+		.img-square {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		a {
+			height: $space5;
+			width: $space5;
+			align-self: center;
+			margin: $space0;
+		}
+	}
+}

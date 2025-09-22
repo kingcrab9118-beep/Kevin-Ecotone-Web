@@ -1,0 +1,102 @@
+@import './constants.css.scss';
+@import 'bootstrap';
+
+
+html, body { 
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  background-color: hsl(210, 100%, 98%);
+  font-family: 'graphik-regular';
+  color: $grey0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $grey1;
+}
+
+p {
+  font-family: 'graphik-light';
+  font-size: $txt2;
+  line-height: $space4;
+  margin: 0 0 $space1;
+}
+
+a { 
+  text-decoration: none;
+  outline: 0px;
+  // keep these to override bootstrap defaults
+  &:link, &:visited, &:hover, &:active, &:focus, &:focus-visible, &:focus-within {
+    text-decoration: none;
+    outline: 0px;
+  }
+  // all links default to green color palette
+  color: $green2;
+  &:hover, &:focus, &:focus-visible {
+    color: $green1;
+  }
+  &:active {
+    color: $green0;
+  }
+}
+
+.container {
+  min-height: 100%;
+  position: relative;
+}
+
+.space {
+  height: $space5;
+  width: $space5;
+}
+
+#body {
+  min-height: 100%;
+  padding-top: $space7;
+  padding-bottom: $space4;
+  margin-bottom: $space6;
+}
+
+.center {
+  text-align: center;
+}
+
+.italic {
+  font-family: 'graphik-light-italic';
+}
+
+.light-italic {
+  font-family: 'graphik-extra-light-italic'
+}
+
+.no-margin {
+	margin: 0px;
+}
+
+.subnav {
+  display: grid;
+  grid-auto-flow: column;
+  height: $space6;
+  padding: $space1;
+  align-content: center;
+}
+
+.sign-in {
+  text-align: center;
+  margin: $space6;
+  img {
+    width: 200px;
+    height: 46px;
+  }
+}
+
+.field_with_errors {
+  @extend .has-error;
+  .form-control {
+		background-color: $red9;
+    &:focus {
+		  background-color: white;
+    }
+  }
+}

@@ -1,0 +1,39 @@
+- content_for_title('Tree Samples')
+- content_for(:subnav) do
+  = link_to('Add Sample', new_tree_sample_path, class: 'button primary', title: 'Add a new tree sample', method: 'get')
+  -# = link_to('Download as CSV', tree_samples_path(format: :csv), class: 'btn', title: 'Download as CSV')
+
+= paginate @tree_samples
+
+%section
+  %table.table.list
+    %thead
+      %tr
+        %th{scope: 'col'} ID
+        %th{scope: 'col'} Collection Date
+        %th{scope: 'col'} Plot
+        %th{scope: 'col'} Species
+        %th{scope: 'col'} Tag
+        %th{scope: 'col'} Growth Stage
+        %th{scope: 'col'} DBH (cm)
+        %th{scope: 'col'} Lower Canopy Ht. (m)
+        %th{scope: 'col'} Upper Canopy Ht. (m)
+        %th{scope: 'col'} Lat. (°)
+        %th{scope: 'col'} Long. (°)
+    %tbody
+      - @tree_samples.each do |sample|
+        %tr{:onclick => "location.href='#{url_for(sample)}'"}
+          %td= sample.id
+          %td= sample.datestamp
+          %td= sample.plot
+          %td= sample.plant.common_name.titleize
+          %td= sample.tag_number
+          %td= sample.growth_stage.capitalize
+          %td= sample.dbh
+          %td= sample.lower_canopy_height
+          %td= sample.upper_canopy_height
+          %td= sample.latitude
+          %td= sample.longitude
+
+= paginate @tree_samples
+
